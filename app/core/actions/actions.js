@@ -41,3 +41,16 @@ export function sortChannels( sortBy ) {
 		} );
 	};
 }
+
+export function markChannelAsFavourite( channelId ) {
+	return ( dispatch, getState ) => {
+		let favouriteChannel = _.find( getState().channels, { channelId } );
+
+		dispatch( {
+			type: types.MARK_CHANNEL_AS_FAVOURITE,
+			payload: {
+				channel: favouriteChannel
+			}
+		} );
+	};
+}

@@ -27,7 +27,8 @@ class Channels extends Component {
 				<Col xs={4} md={3} key={'channel_' + channel.channelId} className="channel-container">
 					<Channel name={channel.channelTitle}
 						number={channel.channelStbNumber}
-						logo={this.getChannelLogo( channel.channelStbNumber )} />
+						logo={this.getChannelLogo( channel.channelStbNumber )}
+						onToggleFavourite={this.props.markChannelAsFavourite.bind( undefined, channel.channelId )} />
 				</Col>
 			);
 		} );

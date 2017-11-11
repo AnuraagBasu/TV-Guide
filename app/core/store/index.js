@@ -19,7 +19,9 @@ function getStore( initialState ) {
 }
 
 const initialState = {
-	channels: []
+	channels: [],
+	sortBy: "",
+	favouriteChannels: []
 };
 
 export default getStore( initialState );
