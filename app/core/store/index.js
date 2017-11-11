@@ -19,7 +19,7 @@ function getStore( initialState ) {
 }
 
 const initialState = {
-
+	channels: []
 };
 
 export default getStore( initialState );

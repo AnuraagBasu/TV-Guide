@@ -13,7 +13,7 @@ module.exports = {
 	},
 	module: {
 		rules: [ {
-			test: /\.jsx?$/,
+			test: /\.js?$/,
 			exclude: /(node_modules|bower_components)/,
 			loader: 'babel-loader',
 			options: {
@@ -21,11 +21,10 @@ module.exports = {
 			}
 		},
 		{
-			test: /\.scss$/,
+			test: /\.css$/,
 			use: [
 				'style-loader',
-				'css-loader',
-				'sass-loader'
+				'css-loader'
 			]
 		}]
 	},

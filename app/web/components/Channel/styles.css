@@ -1,0 +1,15 @@
+.channels-container {
+	max-width: 1024px;
+} 
+
+.channel-container {
+	text-align: center;
+	background-color: rgba(68, 68, 68, 0.9);
+	border: 1px solid #000;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+.image-container { 
+	max-width: 100%;
+}

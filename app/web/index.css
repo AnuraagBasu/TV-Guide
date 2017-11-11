@@ -1,0 +1,24 @@
+body {
+	background-color: #232323;
+	color: #fff;
+}
+
+.menu {
+	background-color: rgba(68, 68, 68, 0.95);
+	border: 1px solid #000;
+}
+
+.menu-item {
+	display: inline-block;
+	width: 25%;
+	color: #fff;
+	text-align: center;
+	padding: 20px 10px;
+	background-color: #363636;
+}
+
+.main-content {
+	padding: 10px;
+}
+
+@import './components/Channel/styles.css';

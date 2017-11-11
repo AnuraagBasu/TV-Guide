@@ -10,10 +10,10 @@ class WhatsOn extends Component {
 	}
 
 	render() {
-		console.log( "in render of Whatson" );
+		console.log( "in render of Whatson tab" );
 		return (
 			<div>
-				<span>This is the "WhatsOn" tab</span>
+				<span>Hey, This is the "WhatsOn" tab</span>
 			</div>
 		);
 	}

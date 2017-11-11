@@ -16,13 +16,12 @@ class Root extends Component {
 	render() {
 		return (
 			<div>
-				<h1>Simple SPA</h1>
-				<ul className="header">
-					<li><Link to="/channels">Channels</Link></li>
-					<li><Link to="/whatson">WhatsOn</Link></li>
-				</ul>
-				<div className="content">
-					<Route exact path="/channels" component={Channels} />
+				<div className="menu">
+					<Link to="/" className="menu-item">Channels</Link>
+					<Link to="/whatson" className="menu-item">WhatsOn</Link>
+				</div>
+				<div className="main-content">
+					<Route exact path="/" component={Channels} />
 					<Route exact path="/whatson" component={WhatsOn} />
 				</div>
 			</div>

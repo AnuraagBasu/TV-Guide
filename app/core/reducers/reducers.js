@@ -1,6 +1,8 @@
 import createReducer from '../lib/createReducer';
 import * as types from '../actions/types';
 
-export const themeName = createReducer( {}, {
-
+export const channels = createReducer( {}, {
+	[ types.FETCH_CHANNELS_RESPONDED ]( state, action ) {
+		return action.payload.channels;
+	}
 } );
