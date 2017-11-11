@@ -13,7 +13,9 @@ export function fetchChannels() {
 				dispatch( {
 					type: types.FETCH_CHANNELS_RESPONDED,
 					payload: {
-						channels: resp.channels
+						channels: _.filter( resp.channels, ( channel ) => {
+							return channel.channelStbNumber > 0;
+						} )
 					}
 				} );
 			} )
@@ -21,5 +23,21 @@ export function fetchChannels() {
 				//TODO: handle error
 				console.log( "error in fetching channels: " + JSON.stringify( err ) );
 			} );
+	};
+}
+
+export function sortChannels( sortBy ) {
+	return ( dispatch, getState ) => {
+		if ( sortBy == getState().sortBy ) {
+			return;
+		}
+
+		dispatch( {
+			type: types.SORT_CHANNELS,
+			payload: {
+				sortBy,
+				channels: _.sortBy( getState().channels, [ sortBy ] )
+			}
+		} );
 	};
 }

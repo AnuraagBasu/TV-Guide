@@ -20,5 +20,3 @@ body {
 .main-content {
 	padding: 10px;
 }
-
-@import './components/Channel/styles.css';
