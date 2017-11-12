@@ -21,7 +21,7 @@ function getStore( initialState ) {
 const initialState = {
 	channels: [],
 	sortBy: "",
-	favouriteChannels: []
+	favouriteChannelIds: []
 };
 
 export default getStore( initialState );

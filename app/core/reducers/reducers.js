@@ -25,3 +25,12 @@ export const sortBy = createReducer( {}, {
 		return action.payload.sortBy;
 	}
 } );
+
+export const favouriteChannelIds = createReducer( {}, {
+	[ types.MARK_CHANNEL_AS_FAVOURITE ]( state, action ) {
+		return [ ...state, action.payload.channelId ];
+	},
+	[ types.SET_FAVOURITE_CHANNELS ]( state, action ) {
+		return action.payload.favouriteChannelIds;
+	}
+} );
