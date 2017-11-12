@@ -21,7 +21,7 @@ class Root extends Component {
 					<Link to="/whatson" className="menu-item">WhatsOn</Link>
 				</div>
 				<div className="main-content">
-					<Route exact path="/" component={Channels} />
+					<Route path="/" component={Channels} />
 					<Route exact path="/whatson" component={WhatsOn} />
 				</div>
 			</div>
