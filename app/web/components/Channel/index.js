@@ -11,7 +11,7 @@ export default class Channel extends Component {
 		}
 
 		return (
-			<div className="channel">
+			<div className="channel" onClick={this.props.onClick}>
 				<img src={this.props.logo} className="image-container" />
 				<div>{this.props.name}</div>
 				<div>{this.props.number}</div>

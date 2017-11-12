@@ -28,7 +28,7 @@ class Channels extends Component {
 			let favouriteChannels = [];
 			_.forEach( this.props.channels, ( channel ) => {
 				if ( channel.isFavourite ) {
-					favouriteChannels.push( this.getChannel( channel ) );
+					favouriteChannels.push( this.getChannel( channel, index ) );
 				}
 			} );
 
@@ -39,14 +39,15 @@ class Channels extends Component {
 		}
 	}
 
-	getChannel( channel ) {
+	getChannel( channel, index ) {
 		return (
 			<Col xs={4} md={3} key={'channel_' + channel.channelId} className="channel-container">
 				<Channel name={channel.channelTitle}
 					number={channel.channelStbNumber}
 					logo={this.getChannelLogo( channel.channelStbNumber )}
 					isFavourite={channel.isFavourite}
-					onToggleFavourite={this.props.markChannelAsFavourite.bind( undefined, channel.channelId )} />
+					onToggleFavourite={this.props.markChannelAsFavourite.bind( undefined, channel.channelId )}
+					onClick={this.props.fetchChannelDetails.bind( undefined, index )} />
 			</Col>
 		);
 	}

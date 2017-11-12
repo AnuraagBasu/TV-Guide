@@ -17,6 +17,15 @@ export const channels = createReducer( {}, {
 		} );
 
 		return channels;
+	},
+	[ types.SET_CHANNEL_DETAILS ]( state, action ) {
+		let updatedChannels = [ ...state ];
+		_.forEach( action.payload.channelDetails, ( channel ) => {
+			let channelIndex = _.findIndex( updatedChannels, { channelId: channel.channelId } );
+			updatedChannels.splice( channelIndex, 1, Object.assign( {}, updatedChannels[ channelIndex ], channel ) );
+		} );
+
+		return updatedChannels;
 	}
 } );
 
