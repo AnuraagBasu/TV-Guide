@@ -21,6 +21,11 @@
 		visibility: hidden;
 		transition: color 0.7s ease;
 
+		&.hearted {
+			color: #E57373;
+			visibility: visible;
+		}
+
 		&:hover {
 			color: #E57373;
 		}

@@ -28,33 +28,27 @@ class Channels extends Component {
 			let favouriteChannels = [];
 			_.forEach( this.props.channels, ( channel ) => {
 				if ( channel.isFavourite ) {
-					favouriteChannels.push(
-						(
-							<Col xs={4} md={3} key={'channel_' + channel.channelId} className="channel-container">
-								<Channel name={channel.channelTitle}
-									number={channel.channelStbNumber}
-									logo={this.getChannelLogo( channel.channelStbNumber )}
-									onToggleFavourite={this.props.markChannelAsFavourite.bind( undefined, channel.channelId )} />
-							</Col>
-						)
-					);
+					favouriteChannels.push( this.getChannel( channel ) );
 				}
 			} );
 
 			return favouriteChannels;
 		} else {
 			console.log( "show here" );
-			return _.map( this.props.channels, ( channel ) => {
-				return (
-					<Col xs={4} md={3} key={'channel_' + channel.channelId} className="channel-container">
-						<Channel name={channel.channelTitle}
-							number={channel.channelStbNumber}
-							logo={this.getChannelLogo( channel.channelStbNumber )}
-							onToggleFavourite={this.props.markChannelAsFavourite.bind( undefined, channel.channelId )} />
-					</Col>
-				);
-			} );
+			return _.map( this.props.channels, this.getChannel.bind( this ) );
 		}
+	}
+
+	getChannel( channel ) {
+		return (
+			<Col xs={4} md={3} key={'channel_' + channel.channelId} className="channel-container">
+				<Channel name={channel.channelTitle}
+					number={channel.channelStbNumber}
+					logo={this.getChannelLogo( channel.channelStbNumber )}
+					isFavourite={channel.isFavourite}
+					onToggleFavourite={this.props.markChannelAsFavourite.bind( undefined, channel.channelId )} />
+			</Col>
+		);
 	}
 
 	componentWillMount() {
