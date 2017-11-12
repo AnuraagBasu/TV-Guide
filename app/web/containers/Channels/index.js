@@ -26,7 +26,7 @@ class Channels extends Component {
 	getChannels( showOnlyFavourites = false ) {
 		if ( showOnlyFavourites ) {
 			let favouriteChannels = [];
-			_.forEach( this.props.channels, ( channel ) => {
+			_.forEach( this.props.channels, ( channel, index ) => {
 				if ( channel.isFavourite ) {
 					favouriteChannels.push( this.getChannel( channel, index ) );
 				}
