@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Styles from './styles.css';
+import Styles from './styles.scss';
 
 export default class SortController extends Component {
 	render() {

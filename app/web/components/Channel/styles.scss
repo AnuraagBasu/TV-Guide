@@ -1,0 +1,32 @@
+.channel {
+	position: relative;
+	text-align: center;
+	background-color: rgba(68, 68, 68, 0.9);
+	padding: 10px;
+	-webkit-box-shadow: 0px 0px 2px 1px rgb(0,0,0);
+	-moz-box-shadow: 0px 0px 2px 1px rgb(0,0,0);
+	box-shadow: 0px 0px 2px 1px rgb(0,0,0);
+	border-radius: 4px;
+
+	.image-container { 
+		max-width: 95%;
+	}
+
+	.heart-shape {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		font-size: 25px;
+		color: #777;
+		visibility: hidden;
+		transition: color 0.7s ease;
+
+		&:hover {
+			color: #E57373;
+		}
+	}
+
+	&:hover .heart-shape {
+		visibility: visible;
+	}
+}

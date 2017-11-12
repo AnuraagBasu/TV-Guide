@@ -12,7 +12,7 @@ import { ActionCreators } from '../../../core/actions';
 import Channel from '../../components/Channel';
 import SortController from '../../components/SortController';
 
-import Styles from './styles.css';
+import Styles from './styles.scss';
 
 class Channels extends Component {
 	constructor( props ) {

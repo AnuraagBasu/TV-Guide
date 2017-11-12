@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Glyphicon } from 'react-bootstrap';
 
-import Styles from './styles.css';
+import Styles from './styles.scss';
 
 export default class Channel extends Component {
 	render() {
