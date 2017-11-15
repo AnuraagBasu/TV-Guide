@@ -44,3 +44,14 @@ export const favouriteChannelIds = createReducer( {}, {
 		return action.payload.favouriteChannelIds;
 	}
 } );
+
+export const linearEvents = createReducer( {}, {
+	[ types.SET_CHANNEL_LINEAR_EVENTS ]( state, action ) {
+		let newState = Object.assign( {}, state );
+		_.forOwn( action.payload.events, ( channelEvents, channelId ) => {
+			newState[ channelId ] = channelEvents;
+		} );
+
+		return newState;
+	}
+} );

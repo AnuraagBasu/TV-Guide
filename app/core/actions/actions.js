@@ -1,5 +1,8 @@
+const moment = require( 'moment' );
+const _ = require( 'lodash' );
+
 import * as types from './types';
-import { getChannelList, getChannelDetails } from '../config/urls';
+import { getChannelList, getChannelDetails, getLinearEvents } from '../config/urls';
 
 export function fetchChannels() {
 	return ( dispatch, getState ) => {
@@ -68,6 +71,8 @@ export function fetchChannelDetails( channelIndex ) {
 		}
 
 		if ( channelsToFetch.length ) {
+			dispatch( fetchChannelLinearEvents( channelsToFetch ) );
+
 			return fetch( getChannelDetails( channelsToFetch ) )
 				.then( resp => resp.json() )
 				.then( resp => {
@@ -79,6 +84,24 @@ export function fetchChannelDetails( channelIndex ) {
 					console.log( "error in fetching channel details: " + JSON.stringify( err ) );
 				} );
 		}
+	};
+}
+
+export function fetchChannelLinearEvents( channelIds ) {
+	return ( dispatch, getState ) => {
+		let startTime = moment().format( "YYYY-MM-DD HH:MM" );
+		let endTime = moment().add( 7, 'days' ).format( "YYYY-MM-DD HH:MM" );
+
+		fetch( getLinearEvents( channelIds, startTime, endTime ) )
+			.then( resp => resp.json() )
+			.then( resp => {
+				//TODO: error handling
+				dispatch( setChannelLinearEvents( resp.getevent ) );
+			} )
+			.catch( err => {
+				//TODO: error handling
+				console.log( "error in fetching linear events: " + JSON.stringify( err ) );
+			} );
 	};
 }
 
@@ -135,6 +158,18 @@ function setChannelDetails( channelDetails ) {
 			type: types.SET_CHANNEL_DETAILS,
 			payload: {
 				channelDetails
+			}
+		} );
+	};
+}
+
+function setChannelLinearEvents( events ) {
+	return ( dispatch, getState ) => {
+		events = _.groupBy( events, "channelId" );
+		dispatch( {
+			type: types.SET_CHANNEL_LINEAR_EVENTS,
+			payload: {
+				events
 			}
 		} );
 	};

@@ -104,9 +104,11 @@ class Channels extends Component {
 				}} />
 				<Route exact path="/:channelTitle/:channelStbNumber" component={( props ) => {
 					let channel = _.find( this.props.channels, { channelStbNumber: parseInt( props.match.params.channelStbNumber ) } );
+					let linearEvents = this.props.linearEvents[ channel.channelId ];
+
 					return (
 						<div className="channel-desc-overlay">
-							<ChannelDesc channel={channel} />
+							<ChannelDesc channel={channel} linearEvents={linearEvents} />
 						</div>
 					)
 				}} />
@@ -121,7 +123,8 @@ function mapDispatchToProps( dispatch ) {
 
 function mapStateToProps( state ) {
 	return {
-		channels: state.channels
+		channels: state.channels,
+		linearEvents: state.linearEvents
 	};
 }
 
