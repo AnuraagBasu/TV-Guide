@@ -89,8 +89,8 @@ export function fetchChannelDetails( channelIndex ) {
 
 export function fetchChannelLinearEvents( channelIds ) {
 	return ( dispatch, getState ) => {
-		let startTime = moment().format( "YYYY-MM-DD HH:MM" );
-		let endTime = moment().add( 7, 'days' ).format( "YYYY-MM-DD HH:MM" );
+		let startTime = moment().format( "YYYY-MM-DD HH:mm" );
+		let endTime = moment().add( 6, 'days' ).format( "YYYY-MM-DD HH:mm" );
 
 		fetch( getLinearEvents( channelIds, startTime, endTime ) )
 			.then( resp => resp.json() )

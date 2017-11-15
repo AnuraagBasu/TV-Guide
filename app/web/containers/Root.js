@@ -7,6 +7,7 @@ import { ActionCreators } from '../../core/actions';
 
 import Channels from './Channels';
 import WhatsOn from './WhatsOn';
+import ChannelDesc from '../components/ChannelDesc';
 
 class Root extends Component {
 	constructor( props ) {
@@ -17,12 +18,20 @@ class Root extends Component {
 		return (
 			<div>
 				<div className="menu">
-					<Link to="/" className="menu-item">Channels</Link>
-					<Link to="/whatson" className="menu-item">WhatsOn</Link>
+					<Link to="/channels" className="menu-item">Channels</Link>
+					<Link to="/tv-guide" className="menu-item">TV Guide</Link>
 				</div>
 				<div className="main-content">
-					<Route path="/" component={Channels} />
-					<Route exact path="/whatson" component={WhatsOn} />
+					<Route exact path="/channels" component={Channels} />
+					<Route exact path="/channels/:channelTitle/:channelStbNumber" component={( props ) => {
+						let channel = _.find( this.props.channels, { channelStbNumber: parseInt( props.match.params.channelStbNumber ) } );
+						let linearEvents = this.props.linearEvents[ channel.channelId ];
+
+						return (
+							<ChannelDesc channel={channel} linearEvents={linearEvents} />
+						);
+					}} />
+					<Route exact path="/tv-guide" component={WhatsOn} />
 				</div>
 			</div>
 		);
@@ -35,7 +44,8 @@ function mapDispatchToProps( dispatch ) {
 
 function mapStateToProps( state ) {
 	return {
-
+		channels: state.channels,
+		linearEvents: state.linearEvents
 	};
 }
 

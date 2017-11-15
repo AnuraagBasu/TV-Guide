@@ -56,7 +56,7 @@ class Channels extends Component {
 	}
 
 	getChannelRouteURL( channelTitle, channelStbNumber ) {
-		return "/" + channelTitle.split( " " ).join( "-" ) + "/" + channelStbNumber;
+		return "/channels/" + channelTitle.split( " " ).join( "-" ) + "/" + channelStbNumber;
 	}
 
 	componentWillMount() {
@@ -82,37 +82,21 @@ class Channels extends Component {
 		}
 
 		return (
-			<div>
-				<Route path="/" component={() => {
-					return (
-						<Grid className="channels-container">
-							<Row>
-								<Col xs={8} sm={8} md={8} lg={8}>
-									<SortController sort={this.props.sortChannels} />
-								</Col>
-								<Col xs={4} sm={4} md={4} lg={4}>
-									<Link to={"?show_fav=" + !showFav}>
-										<Glyphicon glyph="heart" className="heart-shape" />
-									</Link>
-								</Col>
-							</Row>
-							<Row>
-								{content}
-							</Row>
-						</Grid>
-					);
-				}} />
-				<Route exact path="/:channelTitle/:channelStbNumber" component={( props ) => {
-					let channel = _.find( this.props.channels, { channelStbNumber: parseInt( props.match.params.channelStbNumber ) } );
-					let linearEvents = this.props.linearEvents[ channel.channelId ];
-
-					return (
-						<div className="channel-desc-overlay">
-							<ChannelDesc channel={channel} linearEvents={linearEvents} />
-						</div>
-					)
-				}} />
-			</div>
+			<Grid className="channels-container">
+				<Row>
+					<Col xs={8} sm={8} md={8} lg={8}>
+						<SortController sort={this.props.sortChannels} />
+					</Col>
+					<Col xs={4} sm={4} md={4} lg={4}>
+						<Link to={"?show_fav=" + !showFav}>
+							<Glyphicon glyph="heart" className="heart-shape" />
+						</Link>
+					</Col>
+				</Row>
+				<Row>
+					{content}
+				</Row>
+			</Grid>
 		);
 	}
 }

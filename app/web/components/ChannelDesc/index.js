@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Glyphicon } from 'react-bootstrap';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+
+import WeekSchedule from '../WeekSchedule';
 
 import Styles from './styles.scss';
 
@@ -52,6 +55,11 @@ export default class ChannelDesc extends Component {
 								</div>
 							</Col>
 						</Row>
+					</Col>
+				</Row>
+				<Row>
+					<Col sm={12} lg={12}>
+						<WeekSchedule schedule={this.props.linearEvents} />
 					</Col>
 				</Row>
 			</Grid>
