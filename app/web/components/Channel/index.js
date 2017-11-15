@@ -5,7 +5,7 @@ import Styles from './styles.scss';
 
 export default class Channel extends Component {
 	render() {
-		let heartClassNames = [ "heart-shape" ];
+		let heartClassNames = [ "like-btn" ];
 		if ( this.props.isFavourite ) {
 			heartClassNames.push( "hearted" );
 		}
@@ -16,8 +16,8 @@ export default class Channel extends Component {
 				<div>{this.props.name}</div>
 				<div>{this.props.number}</div>
 
-				<div className="like-btn" onClick={this.props.onToggleFavourite}>
-					<Glyphicon glyph="heart" className={heartClassNames.join( " " )} />
+				<div className="like-btn" className={heartClassNames.join( " " )} onClick={this.props.onToggleFavourite}>
+					<Glyphicon glyph="heart" />
 				</div>
 			</div>
 		);

@@ -22,7 +22,8 @@ export const channels = createReducer( {}, {
 		let updatedChannels = [ ...state ];
 		_.forEach( action.payload.channelDetails, ( channel ) => {
 			let channelIndex = _.findIndex( updatedChannels, { channelId: channel.channelId } );
-			updatedChannels.splice( channelIndex, 1, Object.assign( {}, updatedChannels[ channelIndex ], channel ) );
+			let updatedChannelInfo = Object.assign( channel, updatedChannels[ channelIndex ] );
+			updatedChannels.splice( channelIndex, 1, updatedChannelInfo );
 		} );
 
 		return updatedChannels;

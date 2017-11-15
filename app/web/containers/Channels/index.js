@@ -11,6 +11,7 @@ import { ActionCreators } from '../../../core/actions';
 
 import Channel from '../../components/Channel';
 import SortController from '../../components/SortController';
+import ChannelDesc from '../../components/ChannelDesc';
 
 import Styles from './styles.scss';
 
@@ -42,14 +43,20 @@ class Channels extends Component {
 	getChannel( channel, index ) {
 		return (
 			<Col xs={4} md={3} key={'channel_' + channel.channelId} className="channel-container">
-				<Channel name={channel.channelTitle}
-					number={channel.channelStbNumber}
-					logo={this.getChannelLogo( channel.channelStbNumber )}
-					isFavourite={channel.isFavourite}
-					onToggleFavourite={this.props.markChannelAsFavourite.bind( undefined, channel.channelId )}
-					onClick={this.props.fetchChannelDetails.bind( undefined, index )} />
+				<Link to={this.getChannelRouteURL( channel.channelTitle, channel.channelStbNumber )}>
+					<Channel name={channel.channelTitle}
+						number={channel.channelStbNumber}
+						logo={this.getChannelLogo( channel.channelStbNumber )}
+						isFavourite={channel.isFavourite}
+						onToggleFavourite={this.props.markChannelAsFavourite.bind( undefined, channel.channelId )}
+						onClick={this.props.fetchChannelDetails.bind( undefined, index )} />
+				</Link>
 			</Col>
 		);
+	}
+
+	getChannelRouteURL( channelTitle, channelStbNumber ) {
+		return "/" + channelTitle.split( " " ).join( "-" ) + "/" + channelStbNumber;
 	}
 
 	componentWillMount() {
@@ -75,21 +82,35 @@ class Channels extends Component {
 		}
 
 		return (
-			<Grid className="channels-container">
-				<Row>
-					<Col xs={8} sm={8} md={8} lg={8}>
-						<SortController sort={this.props.sortChannels} />
-					</Col>
-					<Col xs={4} sm={4} md={4} lg={4}>
-						<Link to={"?show_fav=" + !showFav}>
-							<Glyphicon glyph="heart" className="heart-shape" />
-						</Link>
-					</Col>
-				</Row>
-				<Row>
-					{content}
-				</Row>
-			</Grid>
+			<div>
+				<Route path="/" component={() => {
+					return (
+						<Grid className="channels-container">
+							<Row>
+								<Col xs={8} sm={8} md={8} lg={8}>
+									<SortController sort={this.props.sortChannels} />
+								</Col>
+								<Col xs={4} sm={4} md={4} lg={4}>
+									<Link to={"?show_fav=" + !showFav}>
+										<Glyphicon glyph="heart" className="heart-shape" />
+									</Link>
+								</Col>
+							</Row>
+							<Row>
+								{content}
+							</Row>
+						</Grid>
+					);
+				}} />
+				<Route exact path="/:channelTitle/:channelStbNumber" component={( props ) => {
+					let channel = _.find( this.props.channels, { channelStbNumber: parseInt( props.match.params.channelStbNumber ) } );
+					return (
+						<div className="channel-desc-overlay">
+							<ChannelDesc channel={channel} />
+						</div>
+					)
+				}} />
+			</div>
 		);
 	}
 }

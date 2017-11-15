@@ -3,6 +3,20 @@ body {
 	color: #fff;
 }
 
+img {
+	max-width: 100%;
+}
+
+a {
+	text-decoration: none;
+	color: #fff;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #fff;
+}
+
 .menu {
 	background-color: rgba(68, 68, 68, 0.95);
 	border: 1px solid #000;
@@ -19,4 +33,26 @@ body {
 
 .main-content {
 	padding: 10px;
+	position: relative;
+	max-width: 1024px;
+	margin: 0 auto;
+}
+
+.like-btn {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 25px;
+	color: #777;
+	visibility: hidden;
+	transition: color 0.7s ease;
+}
+
+.like-btn.hearted {
+	color: #E57373;
+	visibility: visible;
+}
+
+.like-btn:hover {
+	color: #E57373;
 }

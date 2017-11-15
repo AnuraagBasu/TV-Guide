@@ -1,0 +1,50 @@
+.channel-details-container {
+	max-width: 100%;
+	padding: 40px 20px 20px;
+
+	.channel-col {
+		padding: 10px !important;
+
+		.logo-container {
+			border: 1px solid #777777;
+			border-radius: 4px;
+			position: relative;
+
+			&:hover .like-btn {
+				visibility: visible;
+			}
+		}
+
+		.info-container {
+			margin-bottom: 5px;
+
+			.title {
+				font-weight: bold;
+			}
+
+			.tags {
+
+				.tag {
+					display: inline-block;
+					padding: 5px;
+					margin-right: 5px;
+					border-radius: 4px;
+					color: rgba(0, 0, 0, 0.7);
+    				font-weight: bold;
+
+					&.tag-lang {
+						background-color: #81d4fa;
+					}
+
+					&.tag-cat {
+						background-color: #ffb74d;
+					}
+
+					&.tag-hd {
+						background-color: #ef5350;
+					}
+				}
+			}
+		}	
+	}
+}
