@@ -69,12 +69,18 @@ class Channels extends Component {
 		let queryString = this.props.location.search;
 		let queryParams = parseQueryString.parse( queryString );
 		console.log( "queryParams: " + JSON.stringify( queryParams ) );
-		let showFav = false;
+		let onlyFav = false;
+		let onlyHD = false;
 		if ( this.props.channels.length ) {
-			if ( queryParams.show_fav == "true" ) {
-				showFav = true;
+			if ( queryParams.only_fav == "true" ) {
+				onlyFav = true;
 			}
-			content = this.getChannels( showFav );
+
+			if ( queryParams.only_hd == "true" ) {
+				onlyHD = true;
+			}
+
+			content = this.getChannels( onlyFav );
 		} else {
 			content = (
 				<Col sm={1} lg={1}>Loading...</Col>
@@ -83,16 +89,8 @@ class Channels extends Component {
 
 		return (
 			<Grid className="channels-container">
-				<Row>
-					<Col xs={8} sm={8} md={8} lg={8}>
-						<SortController sort={this.props.sortChannels} />
-					</Col>
-					<Col xs={4} sm={4} md={4} lg={4}>
-						<Link to={"?show_fav=" + !showFav}>
-							<Glyphicon glyph="heart" className="heart-shape" />
-						</Link>
-					</Col>
-				</Row>
+				<SortController sort={this.props.sortChannels} />
+
 				<Row>
 					{content}
 				</Row>

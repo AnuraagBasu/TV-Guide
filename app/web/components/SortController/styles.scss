@@ -1,17 +1,44 @@
-.sort-controller {
-	width: 100%;
-	padding: 10px 0 10px;
-	text-align: left;
+.sort-filter-container {
+	padding: 10px;
 
-	* {
-		display: inline-block;
-		text-align: center;
-	}
+	.section {
+		padding: 0px !important;
 
-	.item {
-		padding: 5px 10px;
-		border: 1px solid #777;
-		border-radius: 4px;
-		margin-left: 5px;
+		&.section-right {
+			.filters {
+				text-align: right;
+
+				.filter {
+					width: 60px;
+					padding: 5px;
+					border-radius: 4px;
+					display: inline-block;
+					background-color: red;
+					text-align: center;
+					margin-left: 4px;
+				}
+			}
+		}
+
+		&.section-left {
+
+			.sortBy {
+				text-align: left;
+
+				.label {
+					font-size: 14px;
+				}
+
+				.sort-by-item {
+					width: 60px;
+					padding: 5px;
+					border-radius: 4px;
+					display: inline-block;
+					background-color: red;
+					text-align: center;
+					margin-left: 4px;
+				}
+			}
+		}
 	}
 }

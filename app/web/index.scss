@@ -1,0 +1,39 @@
+.page {
+	width: 100%;
+
+	.menu {
+		text-align: right;
+		background-color: rgba(68, 68, 68, 0.95);
+		border: 1px solid #000;
+		position: fixed;
+		width: 100%;
+		z-index: 10000;
+		-webkit-box-shadow: 0px 0px 2px 1px rgb(0,0,0);
+		-moz-box-shadow: 0px 0px 2px 1px rgb(0,0,0);
+		box-shadow: 0px 0px 2px 1px rgb(0,0,0);
+
+		.menu-item {
+			text-decoration: none !important;
+			display: inline-block;
+			color: #fff;
+			text-align: center;
+			padding: 5px 15px;
+			transition: all 0.4s ease;
+			text-transform: uppercase;
+
+			&:hover, &.selected {
+				color: #7498bc !important;
+			}
+		}
+	}
+
+	.content {
+		padding-top: 60px;
+	}
+
+	.contained {
+		max-width: 1024px;
+		margin: 0 auto;
+		padding: 15px 0px;
+	}
+}

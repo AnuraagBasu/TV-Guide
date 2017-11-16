@@ -17,27 +17,6 @@ a:hover {
 	color: #fff;
 }
 
-.menu {
-	background-color: rgba(68, 68, 68, 0.95);
-	border: 1px solid #000;
-}
-
-.menu-item {
-	display: inline-block;
-	width: 25%;
-	color: #fff;
-	text-align: center;
-	padding: 20px 10px;
-	background-color: #363636;
-}
-
-.main-content {
-	position: relative;
-	max-width: 1024px;
-	margin: 0 auto;
-	padding: 20px 10px;
-}
-
 .like-btn {
 	position: absolute;
 	top: 10px;
