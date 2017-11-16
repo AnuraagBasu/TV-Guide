@@ -17,4 +17,20 @@
 			visibility: visible;
 		}
 	}
+
+	.image-container {
+		max-height: 100px;
+	}
+
+	.info {
+		margin-top: 10px;
+		
+		& > span {
+			padding: 2px 5px;
+
+			&:first-child {
+				border-right: 2px solid #999;
+			}
+		}
+	}
 }

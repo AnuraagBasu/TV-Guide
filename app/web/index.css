@@ -1,6 +1,6 @@
 body {
 	background-color: #232323;
-	color: #fff;
+	color: rgba(255, 255, 255, 0.8);
 }
 
 img {
@@ -24,7 +24,7 @@ a:hover {
 	font-size: 25px;
 	color: #777;
 	visibility: hidden;
-	transition: color 0.7s ease;
+	transition: all 0.2s ease;
 }
 
 .like-btn.hearted {

@@ -18,13 +18,13 @@ export default class WeekSchedule extends Component {
 	getEventItem( event ) {
 		return (
 			<Row key={'event_' + event.eventID} className="event-row">
-				<Col sm={6} md={2}>
+				<Col sm={6} md={1}>
 					<div>{moment( event.displayDateTimeUtc ).format( "hh:mm A" )}</div>
 				</Col>
 				<Col sm={6} md={2}>
 					<div>{event.programmeTitle}</div>
 				</Col>
-				<Col sm={12} md={8}>
+				<Col sm={12} md={9}>
 					<div>{event.shortSynopsis}</div>
 				</Col>
 			</Row>

@@ -69,15 +69,11 @@ class Channels extends Component {
 		let queryString = this.props.location.search;
 		let queryParams = parseQueryString.parse( queryString );
 		console.log( "queryParams: " + JSON.stringify( queryParams ) );
+		let sortBy = queryParams.sort_by;
 		let onlyFav = false;
-		let onlyHD = false;
 		if ( this.props.channels.length ) {
 			if ( queryParams.only_fav == "true" ) {
 				onlyFav = true;
-			}
-
-			if ( queryParams.only_hd == "true" ) {
-				onlyHD = true;
 			}
 
 			content = this.getChannels( onlyFav );
@@ -89,7 +85,7 @@ class Channels extends Component {
 
 		return (
 			<Grid className="channels-container">
-				<SortController sort={this.props.sortChannels} />
+				<SortController sort={this.props.sortChannels} onlyFav={onlyFav} sortBy={sortBy} />
 
 				<Row>
 					{content}

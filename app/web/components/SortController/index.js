@@ -6,35 +6,36 @@ import Styles from './styles.scss';
 
 export default class SortController extends Component {
 	render() {
+		let favFilterClass = [ "filter" ];
+		if ( this.props.onlyFav ) {
+			favFilterClass.push( "selected" );
+		}
+
+		let nameSortClass = [ "sort-by-item" ];
+		let numberSortClass = [ "sort-by-item" ];
+		if ( this.props.sortBy == "name" ) {
+			nameSortClass.push( "selected" );
+		} else if ( this.props.sortBy == "number" ) {
+			numberSortClass.push( "selected" );
+		}
+
 		return (
 			<Row className="sort-filter-container">
 				<Col xs={6} sm={6} md={6} lg={6} className="section section-left">
 					<div className="sortBy">
 						<span className="label">Sort By</span>
-						<Link to={"?sort_by=name"} className="sort-by-item" onClick={this.props.sort.bind( undefined, 'channelTitle' )}>Name</Link>
-						<Link to={"?sort_by=number"} className="sort-by-item" onClick={this.props.sort.bind( undefined, 'channelStbNumber' )}>Number</Link>
+						<Link to={"?sort_by=name"} className={nameSortClass.join( " " )} onClick={this.props.sort.bind( undefined, 'channelTitle' )}>Name</Link>
+						<Link to={"?sort_by=number"} className={numberSortClass.join( " " )} onClick={this.props.sort.bind( undefined, 'channelStbNumber' )}>Number</Link>
 					</div>
 				</Col>
 				<Col xs={6} sm={6} md={6} lg={6} className="section section-right">
 					<div className="filters">
-						<Link to={"?only_hd=" + !this.props.onlyHD} className="filter">
-							<span>HD</span>
-						</Link>
-
-						<Link to={"?only_fav=" + !this.props.onlyFav} className="filter">
+						<Link to={"?only_fav=" + !this.props.onlyFav} className={favFilterClass.join( " " )}>
 							<Glyphicon glyph="heart" className="heart-shape" />
 						</Link>
 					</div>
 				</Col>
 			</Row>
-		);
-
-		return (
-			<div className="sort-controller">
-				<div className="title">Sort By</div>
-				<div className="item" onClick={this.props.sort.bind( undefined, 'channelTitle' )}>Name</div>
-				<div className="item" onClick={this.props.sort.bind( undefined, 'channelStbNumber' )}>Number</div>
-			</div>
 		);
 	}
 }
