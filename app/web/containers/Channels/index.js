@@ -35,7 +35,6 @@ class Channels extends Component {
 
 			return favouriteChannels;
 		} else {
-			console.log( "show here" );
 			return _.map( this.props.channels, this.getChannel.bind( this ) );
 		}
 	}
@@ -64,11 +63,9 @@ class Channels extends Component {
 	}
 
 	render() {
-		console.log( "in render of Channels" );
 		let content;
 		let queryString = this.props.location.search;
 		let queryParams = parseQueryString.parse( queryString );
-		console.log( "queryParams: " + JSON.stringify( queryParams ) );
 		let sortBy = queryParams.sort_by;
 		let onlyFav = false;
 		if ( this.props.channels.length ) {
@@ -85,7 +82,7 @@ class Channels extends Component {
 
 		return (
 			<Grid className="channels-container">
-				<SortController sort={this.props.sortChannels} onlyFav={onlyFav} sortBy={sortBy} />
+				<SortController sort={this.props.sortChannels} onlyFav={onlyFav} sortBy={sortBy} queryParams={queryParams} />
 
 				<Row>
 					{content}

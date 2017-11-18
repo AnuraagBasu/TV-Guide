@@ -12,19 +12,14 @@ export default class DaySchedule extends Component {
 	}
 
 	getSchedule() {
-		return (
-			<div className="events-container">
-				{
-					_.map( this.props.schedule, ( channel ) => {
-						return this.getEventsForChannel( channel );
-					} )
-				}
-			</div>
-		);
+		return _.map( this.props.channels, ( channel ) => {
+			return this.getEventsForChannel( channel.channelId );
+		} );
 	}
 
-	getEventsForChannel( channelEvents ) {
+	getEventsForChannel( channelId ) {
 		let channelTitle = "";
+		let channelEvents = this.props.schedule[ channelId.toString() ];
 		let events = _.map( channelEvents, ( event, index ) => {
 			channelTitle = event.channelTitle;
 			let key = "event_" + event.channelId + "_" + index;
@@ -43,40 +38,34 @@ export default class DaySchedule extends Component {
 		} );
 
 		return (
-			<div className="channel-events">
+			<div key={"channel_event_" + channelId} className="channel-events">
 				{events}
 			</div>
 		);
 	}
 
 	getChannels() {
-		let channelsWithEvents = Object.keys( this.props.schedule );
-		let channelsToShow = [];
-		_.forEach( this.props.channels, ( channel ) => {
-			if ( channelsWithEvents.indexOf( channel.channelId.toString() ) != -1 ) {
-				channelsToShow.push(
-					<div className="channel-info">
-						<img src={this.getChannelLogo( channel.channelStbNumber )} />
-						<div>{channel.channelTitle}</div>
-					</div>
-				);
-			}
+		return _.map( this.props.channels, ( channel ) => {
+			return (
+				<div key={"channel_" + channel.channelId} className="channel-info">
+					<img src={this.getChannelLogo( channel.channelStbNumber )} />
+					<div>{channel.channelTitle}</div>
+				</div>
+			);
 		} );
-
-		return (
-			<div className="channels-info-container">
-				{channelsToShow}
-			</div>
-		);
 	}
 
 	render() {
 		return (
 			<Row className="day-schedule">
 				<Col>
-					{this.getChannels()}
+					<div className="channels-info-container">
+						{this.getChannels()}
+					</div>
 
-					{this.getSchedule()}
+					<div className="events-container">
+						{this.getSchedule()}
+					</div>
 				</Col>
 			</Row>
 		);
