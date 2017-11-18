@@ -26,7 +26,7 @@ class Root extends Component {
 						<Col>
 							<div className="contained">
 								<Link to="/channels" className="menu-item">Channels</Link>
-								<Link to="/tv-guide" className="menu-item">TV Guide</Link>
+								<Link to="/whatson" className="menu-item">WhatsOn</Link>
 							</div>
 						</Col>
 					</Row>
@@ -43,7 +43,7 @@ class Root extends Component {
 										<ChannelDesc channel={channel} linearEvents={linearEvents} />
 									);
 								}} />
-								<Route exact path="/tv-guide" component={WhatsOn} />
+								<Route exact path="/whatson" component={WhatsOn} />
 							</div>
 						</Col>
 					</Row>

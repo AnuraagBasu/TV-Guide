@@ -1,0 +1,72 @@
+.day-schedule {
+
+	& > * {
+		white-space: nowrap;
+	}
+
+	.channels-info-container {
+		display: inline-block;
+		vertical-align: top;
+
+		.channel-info {
+			width: 180px;
+			text-align: center;
+			padding: 10px 5px;
+			height: 100px;
+			border-color: #888;
+			border-style: solid;
+			border-width: 0px 1px;
+
+			&:nth-child(odd) {
+				border-width: 1px;
+			}
+
+			&:last-child {
+				border-width: 1px;
+			}
+
+			& > img {
+				width: 100px;
+			}
+		}
+	}
+
+	.events-container {
+		display: inline-block;
+		vertical-align: top;
+
+		.channel-events {
+			height: 100px;
+			white-space: nowrap;
+
+			& > * {
+				display: inline-block;
+				vertical-align: top;
+			}
+
+			.channel-event {
+				border-color: #888;
+				border-style: solid;
+				border-width: 0px 1px 1px 0px;
+				padding: 10px;
+				height: 100%;
+				text-align: center;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: nowrap;
+			}
+
+			&:nth-child(odd) {
+				.channel-event {
+					border-top-width: 1px;
+				}
+			}
+
+			&:last-child {
+				.channel-event {
+					border-top-width: 1px;
+				}
+			}
+		}
+	}
+}
