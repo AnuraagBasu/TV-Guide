@@ -27,6 +27,23 @@ export const channels = createReducer( {}, {
 		} );
 
 		return updatedChannels;
+	},
+	[ types.SET_CHANNEL_LINEAR_EVENTS ]( state, action ) {
+		let updatedChannels = [ ...state ];
+		_.forEach( updatedChannels, ( channel ) => {
+			let allEvents = action.payload.events;
+			let eventsToBeUpdated = _.find( allEvents, ( channelEvents, channelId ) => {
+				if ( channel.channelId == parseInt( channelId ) ) {
+					return true;
+				}
+			} );
+
+			if ( eventsToBeUpdated ) {
+				channel.linearEvents = allEvents[ channel.channelId.toString() ];
+			}
+		} );
+
+		return updatedChannels;
 	}
 } );
 

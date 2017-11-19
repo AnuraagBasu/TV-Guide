@@ -9,6 +9,7 @@ import { ActionCreators } from '../../core/actions';
 
 import Channels from './Channels';
 import WhatsOn from './WhatsOn';
+import ChannelDetails from './ChannelDetails';
 import ChannelDesc from '../components/ChannelDesc';
 
 import Styles from '../index.scss';
@@ -16,6 +17,16 @@ import Styles from '../index.scss';
 class Root extends Component {
 	constructor( props ) {
 		super( props );
+	}
+
+	componentWillMount() {
+		this.props.fetchChannels();
+	}
+
+	componentWillReceiveProps( nextProps ) {
+		if ( !this.props.channels.length && nextProps.channels.length ) {
+			this.props.loadChannelData();
+		}
 	}
 
 	render() {
@@ -35,14 +46,7 @@ class Root extends Component {
 						<Col>
 							<div className="contained">
 								<Route exact path="/channels" component={Channels} />
-								<Route exact path="/channels/:channelTitle/:channelStbNumber" component={( props ) => {
-									let channel = _.find( this.props.channels, { channelStbNumber: parseInt( props.match.params.channelStbNumber ) } );
-									let linearEvents = this.props.linearEvents[ channel.channelId ];
-
-									return (
-										<ChannelDesc channel={channel} linearEvents={linearEvents} />
-									);
-								}} />
+								<Route exact path="/channels/:channelTitle/:channelStbNumber" component={ChannelDetails} />
 								<Route exact path="/whatson" component={WhatsOn} />
 							</div>
 						</Col>

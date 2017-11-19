@@ -47,8 +47,7 @@ class Channels extends Component {
 						number={channel.channelStbNumber}
 						logo={this.getChannelLogo( channel.channelStbNumber )}
 						isFavourite={channel.isFavourite}
-						onToggleFavourite={this.props.markChannelAsFavourite.bind( undefined, channel.channelId )}
-						onClick={this.props.fetchChannelDetails.bind( undefined, index )} />
+						onToggleFavourite={this.props.markChannelAsFavourite.bind( undefined, channel.channelId )} />
 				</Link>
 			</Col>
 		);
@@ -58,14 +57,9 @@ class Channels extends Component {
 		return "/channels/" + channelTitle.split( " " ).join( "-" ) + "/" + channelStbNumber;
 	}
 
-	componentWillMount() {
-		this.props.fetchChannels();
-	}
-
 	render() {
 		let content;
-		let queryString = this.props.location.search;
-		let queryParams = parseQueryString.parse( queryString );
+		let queryParams = parseQueryString.parse( this.props.location.search );
 		let sortBy = queryParams.sort_by;
 		let onlyFav = false;
 		if ( this.props.channels.length ) {
@@ -98,8 +92,7 @@ function mapDispatchToProps( dispatch ) {
 
 function mapStateToProps( state ) {
 	return {
-		channels: state.channels,
-		linearEvents: state.linearEvents
+		channels: state.channels
 	};
 }
 

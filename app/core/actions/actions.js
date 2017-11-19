@@ -54,36 +54,20 @@ export function markChannelAsFavourite( channelId ) {
 	};
 }
 
-export function fetchChannelDetails( channelIndex ) {
+export function fetchChannelDetails( channelIds ) {
 	return ( dispatch, getState ) => {
-		let allChannels = getState().channels;
-		let channelsToFetch = [];
-		if ( allChannels[ channelIndex ] && !allChannels[ channelIndex ].channelDescription ) {
-			channelsToFetch.push( allChannels[ channelIndex ].channelId );
-		}
+		dispatch( fetchChannelLinearEvents( channelIds ) );
 
-		if ( allChannels[ channelIndex - 1 ] && !allChannels[ channelIndex - 1 ].channelDescription ) {
-			channelsToFetch.push( allChannels[ channelIndex - 1 ].channelId );
-		}
-
-		if ( allChannels[ channelIndex + 1 ] && !allChannels[ channelIndex + 1 ].channelDescription ) {
-			channelsToFetch.push( allChannels[ channelIndex + 1 ].channelId );
-		}
-
-		if ( channelsToFetch.length ) {
-			dispatch( fetchChannelLinearEvents( channelsToFetch ) );
-
-			return fetch( getChannelDetails( channelsToFetch ) )
-				.then( resp => resp.json() )
-				.then( resp => {
-					//TODO: error handling
-					dispatch( setChannelDetails( resp.channel ) );
-				} )
-				.catch( err => {
-					//TODO: error handling
-					console.log( "error in fetching channel details: " + JSON.stringify( err ) );
-				} );
-		}
+		return fetch( getChannelDetails( channelIds ) )
+			.then( resp => resp.json() )
+			.then( resp => {
+				//TODO: error handling
+				dispatch( setChannelDetails( resp.channel ) );
+			} )
+			.catch( err => {
+				//TODO: error handling
+				console.log( "error in fetching channel details: " + JSON.stringify( err ) );
+			} );
 	};
 }
 
@@ -105,24 +89,43 @@ export function fetchChannelLinearEvents( channelIds ) {
 	};
 }
 
+export function loadChannelData( count = 15 ) {
+	return ( dispatch, getState ) => {
+		let allChannels = getState().channels;
+		let channelsToFetch = allChannels.slice( 0, count );
+		let channelIds = [];
+		_.forEach( channelsToFetch, ( channel ) => {
+			channelIds.push( channel.channelId );
+		} );
+
+		dispatch( fetchChannelDetails( channelIds ) );
+	};
+}
+
 function setChannels( channels ) {
 	return ( dispatch, getState ) => {
+		let favouriteChannelIds = getState().favouriteChannelIds;
+		let filteredChannels = _.filter( channels, ( channel ) => {
+			if ( channel.channelStbNumber > 0 ) {
+				let isFavourite = false;
+				if ( favouriteChannelIds.indexOf( channel.channelId ) != -1 ) {
+					isFavourite = true;
+				}
+
+				channel.isFavourite = isFavourite;
+
+				return channel;
+			}
+		} );
+
+		filteredChannels = _.sortBy( filteredChannels, ( channel ) => {
+			return channel.isFavourite != true;
+		} );
+
 		dispatch( {
 			type: types.FETCH_CHANNELS_RESPONDED,
 			payload: {
-				channels: _.filter( channels, ( channel ) => {
-					if ( channel.channelStbNumber > 0 ) {
-						let favouriteChannelIds = getState().favouriteChannelIds;
-						let isFavourite = false;
-						if ( favouriteChannelIds.indexOf( channel.channelId ) != -1 ) {
-							isFavourite = true;
-						}
-
-						channel.isFavourite = isFavourite;
-
-						return channel;
-					}
-				} )
+				channels: filteredChannels
 			}
 		} );
 	};
