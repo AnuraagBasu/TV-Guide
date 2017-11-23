@@ -12,7 +12,7 @@ export function fetchChannels() {
 
 		dispatch( getFavouriteChannels() );
 
-		return fetch( getChannelList() )
+		fetch( getChannelList() )
 			.then( resp => resp.json() )
 			.then( resp => {
 				//TODO: error handling
@@ -178,13 +178,13 @@ function setChannels( channels ) {
 
 function getFavouriteChannels() {
 	return ( dispatch, getState ) => {
-		let favouriteChannelIds = localStorage.getItem( "favouriteChannelIds" );
-		if ( favouriteChannelIds ) {
-			favouriteChannelIds = JSON.parse( favouriteChannelIds );
-		} else {
-			favouriteChannelIds = [];
+		let favouriteChannelIds = [];
+		if ( window.localStorage ) {
+			favouriteChannelIds = window.localStorage.getItem( "favouriteChannelIds" );
+			if ( favouriteChannelIds ) {
+				favouriteChannelIds = JSON.parse( favouriteChannelIds );
+			}
 		}
-
 		dispatch( {
 			type: types.SET_FAVOURITE_CHANNELS,
 			payload: {
@@ -196,17 +196,29 @@ function getFavouriteChannels() {
 
 function persistFavouriteChannelsLocally( channelId ) {
 	return ( dispatch, getState ) => {
-		localStorage.setItem( "favouriteChannelIds", JSON.stringify( getState().favouriteChannelIds ) );
+		if ( window.localStorage ) {
+			window.localStorage.setItem( "favouriteChannelIds", JSON.stringify( getState().favouriteChannelIds ) );
+		}
 	};
 }
 
 function setDetailedChannels( channelsInfo, channelLinearEvents ) {
 	return ( dispatch, getState ) => {
+		let formattedData = {};
+		let groupedEvents = _.sortBy( channelLinearEvents, [ "displayDateTimeUtc" ] );
+		groupedEvents = _.groupBy( groupedEvents, "channelId" );
+		_.forEach( groupedEvents, ( events, channelId ) => {
+			let eventsGroupedByDate = _.groupBy( events, ( event ) => {
+				return moment( event.displayDateTimeUtc ).local().format( "ddd,D,MMM" );
+			} );
+			formattedData[ channelId ] = eventsGroupedByDate;
+		} );
+
 		dispatch( {
 			type: types.FETCH_CHANNEL_DATA_RESPONDED,
 			payload: {
 				channelsInfo,
-				channelLinearEvents: _.groupBy( channelLinearEvents, "channelId" )
+				channelLinearEvents: formattedData
 			}
 		} );
 	};

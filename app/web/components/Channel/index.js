@@ -14,8 +14,8 @@ export default class Channel extends Component {
 			<div className="channel" onClick={this.props.onClick}>
 				<img src={this.props.logo} className="image-container" />
 				<div className="info">
-					<span>{this.props.name}</span>
-					<span>{this.props.number}</span>
+					<div className="channel-name">{this.props.name}</div>
+					<div className="channel-number">CH - {this.props.number}</div>
 				</div>
 
 				<div className="like-btn" className={heartClassNames.join( " " )} onClick={this.props.onToggleFavourite}>

@@ -41,7 +41,7 @@ export const favouriteChannelIds = createReducer( {}, {
 		return [ ...state, action.payload.channelId ];
 	},
 	[ types.SET_FAVOURITE_CHANNELS ]( state, action ) {
-		return action.payload.favouriteChannelIds;
+		return action.payload.favouriteChannelIds || [];
 	}
 } );
 

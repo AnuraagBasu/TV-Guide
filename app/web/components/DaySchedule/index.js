@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
+const moment = require( 'moment' );
+
 import Styles from './styles.scss';
 
-const WIDTH = 300;
+const HOUR_WIDTH = 300;
 
 export default class DaySchedule extends Component {
 
@@ -20,21 +22,27 @@ export default class DaySchedule extends Component {
 	getEventsForChannel( channelId ) {
 		let channelTitle = "";
 		let channelEvents = this.props.schedule[ channelId.toString() ];
-		let events = _.map( channelEvents, ( event, index ) => {
-			channelTitle = event.channelTitle;
-			let key = "event_" + event.channelId + "_" + index;
-			let eventDuration = event.displayDuration.split( ":" );
-			let eventDurationInSecs = ( parseInt( eventDuration[ 0 ] ) * 60 * 60 ) + ( parseInt( eventDuration[ 1 ] ) * 60 ) + parseInt( eventDuration[ 2 ] );
+		let events = [];
+		_.forEach( channelEvents, ( event, index ) => {
+			let eventTime = moment( event.displayDateTimeUtc ).local().unix();
+			let timeAtMidnight = moment().endOf( "day" ).unix();
 
-			let eventStyles = {
-				width: ( WIDTH / ( 60 * 60 ) ) * eventDurationInSecs
-			};
+			if ( ( eventTime >= moment().unix() ) && ( eventTime <= timeAtMidnight ) ) {
+				channelTitle = event.channelTitle;
+				let key = "event_" + event.channelId + "_" + index;
+				let eventDuration = event.displayDuration.split( ":" );
+				let eventDurationInSecs = ( parseInt( eventDuration[ 0 ] ) * 60 * 60 ) + ( parseInt( eventDuration[ 1 ] ) * 60 ) + parseInt( eventDuration[ 2 ] );
 
-			return (
-				<div key={key} className="channel-event" style={eventStyles}>
-					<span>{event.programmeTitle}</span>
-				</div>
-			);
+				let eventStyles = {
+					width: ( HOUR_WIDTH / ( 60 * 60 ) ) * eventDurationInSecs
+				};
+
+				events.push(
+					<div key={key} className="channel-event" style={eventStyles}>
+						<span>{event.programmeTitle}</span>
+					</div>
+				);
+			}
 		} );
 
 		return (
@@ -63,6 +71,23 @@ export default class DaySchedule extends Component {
 		}
 	}
 
+	getHourPieces() {
+		let currentTime = moment().unix();
+		let timeAtMidnight = moment().endOf( "day" ).unix();
+		let hoursLeftTillMidnight = Math.floor( ( timeAtMidnight - currentTime ) / ( 60 * 60 ) );
+
+		let hourPieces = [];
+		for ( let i = 0; i < hoursLeftTillMidnight; i++ ) {
+			hourPieces.push(
+				<div key={'hour_pieces_' + i} style={{ width: HOUR_WIDTH, borderWidth: 1 }} className="event-hour-piece">
+					{moment().add( i + 1, 'hours' ).format( "h A" )}
+				</div>
+			);
+		}
+
+		return hourPieces;
+	}
+
 	componentDidMount() {
 		window.addEventListener( "scroll", this.onScroll.bind( this ), true );
 	}
@@ -76,23 +101,19 @@ export default class DaySchedule extends Component {
 			<Row id="daySchedule" className="day-schedule">
 				<Col>
 					<div className="channels-info-container">
+						<div className="channel-info-header"></div>
 						{this.getChannels()}
 					</div>
 
 					<div className="events-container">
-						{this.getSchedule()}
-					</div>
-				</Col>
-			</Row>
-		);
+						<div className="channel-events-header">
+							{this.getHourPieces()}
+						</div>
 
-		return (
-			<Row className="day-schedule">
-				<Col xs={2} sm={2} md={2} lg={2}>
-					{this.getChannels()}
-				</Col>
-				<Col xs={10} sm={10} md={10} lg={10}>
-					{this.getSchedule()}
+						<div className="events">
+							{this.getSchedule()}
+						</div>
+					</div>
 				</Col>
 			</Row>
 		);

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 const parseQueryString = require( 'query-string' );
+const moment = require( "moment" );
 
 import { ActionCreators } from '../../../core/actions';
 
@@ -30,6 +31,7 @@ class WhatsOn extends Component {
 	prepareDataForDayScheduler( channels, linearEvents, onlyFavourites = false ) {
 		this.channelsInfo = [];
 		this.scheduleToShow = {};
+		let forDate = moment().format( "ddd,D,MMM" );
 		if ( !_.isEmpty( linearEvents ) ) {
 			_.forEach( channels, ( channel ) => {
 				let channelsToShow = Object.keys( linearEvents );
@@ -42,7 +44,7 @@ class WhatsOn extends Component {
 							channelTitle: channel.channelTitle
 						} );
 
-						this.scheduleToShow[ channel.channelId ] = linearEvents[ channel.channelId.toString() ];
+						this.scheduleToShow[ channel.channelId ] = linearEvents[ channel.channelId.toString() ][ forDate ];
 					}
 				} else {
 					if ( channelsToShow.indexOf( channel.channelId.toString() ) != -1 ) {
@@ -52,7 +54,7 @@ class WhatsOn extends Component {
 							channelTitle: channel.channelTitle
 						} );
 
-						this.scheduleToShow[ channel.channelId ] = linearEvents[ channel.channelId.toString() ];
+						this.scheduleToShow[ channel.channelId ] = linearEvents[ channel.channelId.toString() ][ forDate ];
 					}
 				}
 			} );
@@ -94,7 +96,9 @@ class WhatsOn extends Component {
 
 			content = (
 				<Col>
-					<DaySchedule schedule={this.scheduleToShow} channels={this.channelsInfo} onScrollEnd={this.onScrollEnd.bind( this )} />
+					<DaySchedule schedule={this.scheduleToShow}
+						channels={this.channelsInfo}
+						onScrollEnd={this.onScrollEnd.bind( this )} />
 
 					{loader}
 				</Col>
@@ -109,9 +113,7 @@ class WhatsOn extends Component {
 			<Grid className="whatson-container">
 				<SortController sort={this.props.sortChannels} onlyFav={onlyFav == "true"} sortBy={sortBy} queryParams={queryParams} />
 
-				<Row>
-					{content}
-				</Row>
+				{content}
 			</Grid>
 		);
 	}

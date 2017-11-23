@@ -37,31 +37,27 @@ export default class WeekSchedule extends Component {
 			events: {}
 		};
 
-		_.forEach( this.props.schedule, ( event ) => {
-			let currentTime = new Date();
-			let eventTime = new Date( event.displayDateTimeUtc );
-			let eventDay = this.whichDayIsIt( eventTime );
+		_.forEach( this.props.schedule, ( events, eventDay ) => {
+			tabs.headers[ eventDay ] = (
+				<Tab key={"tab_" + eventDay} className="tab-day">{eventDay}</Tab>
+			);
 
-			if ( !tabs.headers[ eventDay ] ) {
-				tabs.headers[ eventDay ] = (
-					<Tab key={"tab_" + eventDay} className="tab-day">{eventDay}</Tab>
-				);
-			}
+			_.forEach( events, ( event ) => {
+				if ( !tabs.events[ eventDay ] ) {
+					tabs.events[ eventDay ] = [];
+				}
 
-			if ( !tabs.events[ eventDay ] ) {
-				tabs.events[ eventDay ] = [];
-			}
-
-			tabs.events[ eventDay ].push( this.getEventItem( event ) );
+				tabs.events[ eventDay ].push( this.getEventItem( event ) );
+			} );
 		} );
 
 		let tabHeaders = [];
 		let tabPanels = [];
-		_.forOwn( tabs.headers, ( header, key ) => {
+		_.forOwn( tabs.headers, ( header, eventDay ) => {
 			tabHeaders.push( header );
 			tabPanels.push(
-				<TabPanel key={"tab_panel_" + key}>
-					{tabs.events[ key ]}
+				<TabPanel key={"tab_panel_" + eventDay}>
+					{tabs.events[ eventDay ]}
 				</TabPanel>
 			);
 		} );

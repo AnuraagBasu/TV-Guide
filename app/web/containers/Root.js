@@ -37,7 +37,7 @@ class Root extends Component {
 						<Col>
 							<div className="contained">
 								<Link to="/channels" className="menu-item">Channels</Link>
-								<Link to="/whatson" className="menu-item">WhatsOn</Link>
+								<Link to="/whatson" className="menu-item">What's On</Link>
 							</div>
 						</Col>
 					</Row>

@@ -17,19 +17,19 @@ class ChannelDetails extends Component {
 	}
 
 	getLinearEventsToShow() {
-		let filteredEvents = _.filter( this.props.linearEvents, ( event ) => {
-			let eventTime = moment.utc( event.displayDateTimeUtc );
-			let isEventInFuture = eventTime.diff( moment.utc(), "days" );
-			if ( isEventInFuture == 0 ) {
-				if ( eventTime.diff( moment.utc(), "hours" ) >= 0 ) {
-					return true;
-				}
-			} else if ( isEventInFuture > 0 ) {
+		let today = moment().format( "ddd,D,MMM" );
+		let allEvents = Object.assign( {}, this.props.linearEvents );
+		let eventsForToday = _.filter( allEvents[ today ], ( event ) => {
+			let eventTime = moment.utc( event.displayDateTimeUtc ).local();
+			if ( eventTime.diff( moment(), "hours" ) >= 0 ) {
 				return true;
 			}
-		} );
 
-		return filteredEvents;
+			return false;
+		} );
+		allEvents[ today ] = eventsForToday;
+
+		return allEvents;
 	}
 
 	componentWillMount() {

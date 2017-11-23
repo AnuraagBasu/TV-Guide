@@ -32,5 +32,16 @@
 				border-right: 2px solid #999;
 			}
 		}
+
+		.channel-name {
+			max-width: 100%;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+
+		.channel-number {
+			font-size: 14px;
+		}
 	}
 }
