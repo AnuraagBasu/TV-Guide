@@ -72,7 +72,25 @@ export function fetchChannelLinearEvents( channelIds ) {
 	};
 }
 
-export function loadChannelData( count = 15 ) {
+export function loadDataForChannel( channelStbNumber ) {
+	return ( dispatch, getState ) => {
+		dispatch( {
+			type: types.FETCH_CHANNEL_DATA_IN_PROGRESS
+		} );
+
+		let channelToFetch = _.find( getState().channels, { channelStbNumber: channelStbNumber } );
+
+		Promise.all( [ getChannelInfo( [ channelToFetch.channelId ] ), getChannelLinearEvents( [ channelToFetch.channelId ] ) ] )
+			.then( data => {
+				dispatch( setDetailedChannels( data[ 0 ], data[ 1 ] ) );
+			} )
+			.catch( err => {
+				console.log( "error" );
+			} );
+	};
+}
+
+export function loadDataForChannels( count = 15 ) {
 	return ( dispatch, getState ) => {
 		dispatch( {
 			type: types.FETCH_CHANNEL_DATA_IN_PROGRESS
@@ -112,7 +130,7 @@ function getChannelInfo( channelIds ) {
 
 function getChannelLinearEvents( channelIds ) {
 	return new Promise( ( resolve, reject ) => {
-		let startTime = moment().format( "YYYY-MM-DD HH:mm" );
+		let startTime = moment().startOf( 'day' ).format( "YYYY-MM-DD HH:mm" );
 		let endTime = moment().add( 6, 'days' ).format( "YYYY-MM-DD HH:mm" );
 
 		fetch( getLinearEvents( channelIds, startTime, endTime ) )

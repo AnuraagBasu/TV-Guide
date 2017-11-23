@@ -23,7 +23,7 @@ class WhatsOn extends Component {
 		if ( !this.props.isChannelsDetailedDataPresent ) {
 			event.preventDefault();
 		} else {
-			this.props.loadChannelData();
+			this.props.loadDataForChannels();
 		}
 	}
 

@@ -25,7 +25,7 @@ class Root extends Component {
 
 	componentWillReceiveProps( nextProps ) {
 		if ( !this.props.channels.length && nextProps.channels.length ) {
-			this.props.loadChannelData();
+			this.props.loadDataForChannels();
 		}
 	}
 
