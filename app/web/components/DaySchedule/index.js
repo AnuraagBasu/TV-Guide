@@ -49,15 +49,31 @@ export default class DaySchedule extends Component {
 			return (
 				<div key={"channel_" + channel.channelId} className="channel-info">
 					<img src={this.getChannelLogo( channel.channelStbNumber )} />
-					<div>{channel.channelTitle}</div>
+					<div className="channel-info-name">{channel.channelTitle}</div>
+					<div className="channel-info-number">CH - {channel.channelStbNumber}</div>
 				</div>
 			);
 		} );
 	}
 
+	onScroll( event ) {
+		let target = event.target;
+		if ( target.id == "daySchedule" && ( ( target.scrollTop + target.offsetHeight ) > ( target.scrollHeight - 100 ) ) ) {
+			this.props.onScrollEnd( event );
+		}
+	}
+
+	componentDidMount() {
+		window.addEventListener( "scroll", this.onScroll.bind( this ), true );
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener( "scroll", this.onScroll.bind( this ) );
+	}
+
 	render() {
 		return (
-			<Row className="day-schedule">
+			<Row id="daySchedule" className="day-schedule">
 				<Col>
 					<div className="channels-info-container">
 						{this.getChannels()}

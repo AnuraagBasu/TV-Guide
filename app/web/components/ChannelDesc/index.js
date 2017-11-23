@@ -59,7 +59,7 @@ export default class ChannelDesc extends Component {
 				</Row>
 				<Row>
 					<Col sm={12} lg={12}>
-						<WeekSchedule schedule={channel.linearEvents} />
+						<WeekSchedule schedule={this.props.linearEvents} />
 					</Col>
 				</Row>
 			</Grid>

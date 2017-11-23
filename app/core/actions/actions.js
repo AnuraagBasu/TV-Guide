@@ -54,23 +54,6 @@ export function markChannelAsFavourite( channelId ) {
 	};
 }
 
-export function fetchChannelDetails( channelIds ) {
-	return ( dispatch, getState ) => {
-		dispatch( fetchChannelLinearEvents( channelIds ) );
-
-		return fetch( getChannelDetails( channelIds ) )
-			.then( resp => resp.json() )
-			.then( resp => {
-				//TODO: error handling
-				dispatch( setChannelDetails( resp.channel ) );
-			} )
-			.catch( err => {
-				//TODO: error handling
-				console.log( "error in fetching channel details: " + JSON.stringify( err ) );
-			} );
-	};
-}
-
 export function fetchChannelLinearEvents( channelIds ) {
 	return ( dispatch, getState ) => {
 		let startTime = moment().format( "YYYY-MM-DD HH:mm" );
@@ -91,15 +74,59 @@ export function fetchChannelLinearEvents( channelIds ) {
 
 export function loadChannelData( count = 15 ) {
 	return ( dispatch, getState ) => {
-		let allChannels = getState().channels;
-		let channelsToFetch = allChannels.slice( 0, count );
-		let channelIds = [];
-		_.forEach( channelsToFetch, ( channel ) => {
-			channelIds.push( channel.channelId );
+		dispatch( {
+			type: types.FETCH_CHANNEL_DATA_IN_PROGRESS
 		} );
 
-		dispatch( fetchChannelDetails( channelIds ) );
+		let channelsWithLinearEvents = Object.keys( getState().linearEvents );
+		let allChannels = _.map( getState().channels, ( channel ) => {
+			return channel.channelId.toString();
+		} );
+		let channelsToFetch = _.difference( allChannels, channelsWithLinearEvents ).slice( 0, count );
+
+		Promise.all( [ getChannelInfo( channelsToFetch ), getChannelLinearEvents( channelsToFetch ) ] )
+			.then( data => {
+				dispatch( setDetailedChannels( data[ 0 ], data[ 1 ] ) );
+			} )
+			.catch( err => {
+				console.log( "error" );
+			} );
 	};
+}
+
+function getChannelInfo( channelIds ) {
+	return new Promise( ( resolve, reject ) => {
+		fetch( getChannelDetails( channelIds ) )
+			.then( resp => resp.json() )
+			.then( resp => {
+				//TODO: error handling
+				resolve( resp.channel );
+			} )
+			.catch( err => {
+				//TODO: error handling
+				console.log( "error in fetching channel details: " + JSON.stringify( err ) );
+				reject( err );
+			} );
+	} );
+}
+
+function getChannelLinearEvents( channelIds ) {
+	return new Promise( ( resolve, reject ) => {
+		let startTime = moment().format( "YYYY-MM-DD HH:mm" );
+		let endTime = moment().add( 6, 'days' ).format( "YYYY-MM-DD HH:mm" );
+
+		fetch( getLinearEvents( channelIds, startTime, endTime ) )
+			.then( resp => resp.json() )
+			.then( resp => {
+				//TODO: error handling
+				resolve( resp.getevent );
+			} )
+			.catch( err => {
+				//TODO: error handling
+				console.log( "error in fetching linear events: " + JSON.stringify( err ) );
+				reject( err );
+			} );
+	} );
 }
 
 function setChannels( channels ) {
@@ -155,12 +182,13 @@ function persistFavouriteChannelsLocally( channelId ) {
 	};
 }
 
-function setChannelDetails( channelDetails ) {
+function setDetailedChannels( channelsInfo, channelLinearEvents ) {
 	return ( dispatch, getState ) => {
 		dispatch( {
-			type: types.SET_CHANNEL_DETAILS,
+			type: types.FETCH_CHANNEL_DATA_RESPONDED,
 			payload: {
-				channelDetails
+				channelsInfo,
+				channelLinearEvents: _.groupBy( channelLinearEvents, "channelId" )
 			}
 		} );
 	};

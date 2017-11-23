@@ -22,7 +22,8 @@ const initialState = {
 	channels: [],
 	sortBy: "",
 	favouriteChannelIds: [],
-	linearEvents: {}
+	linearEvents: {},
+	isChannelsDetailedDataPresent: false
 };
 
 export default getStore( initialState );

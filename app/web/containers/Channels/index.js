@@ -62,7 +62,7 @@ class Channels extends Component {
 		let queryParams = parseQueryString.parse( this.props.location.search );
 		let sortBy = queryParams.sort_by;
 		let onlyFav = false;
-		if ( this.props.channels.length ) {
+		if ( this.props.isChannelsDetailedDataPresent && this.props.channels.length ) {
 			if ( queryParams.only_fav == "true" ) {
 				onlyFav = true;
 			}
@@ -75,7 +75,7 @@ class Channels extends Component {
 		}
 
 		return (
-			<Grid className="channels-container">
+			<Grid ref={( node ) => this._scrollableElement} className="channels-container">
 				<SortController sort={this.props.sortChannels} onlyFav={onlyFav} sortBy={sortBy} queryParams={queryParams} />
 
 				<Row>
@@ -92,7 +92,8 @@ function mapDispatchToProps( dispatch ) {
 
 function mapStateToProps( state ) {
 	return {
-		channels: state.channels
+		channels: state.channels,
+		isChannelsDetailedDataPresent: state.isChannelsDetailedDataPresent
 	};
 }
 

@@ -18,29 +18,12 @@ export const channels = createReducer( {}, {
 
 		return channels;
 	},
-	[ types.SET_CHANNEL_DETAILS ]( state, action ) {
+	[ types.FETCH_CHANNEL_DATA_RESPONDED ]( state, action ) {
 		let updatedChannels = [ ...state ];
-		_.forEach( action.payload.channelDetails, ( channel ) => {
+		_.forEach( action.payload.channelsInfo, ( channel ) => {
 			let channelIndex = _.findIndex( updatedChannels, { channelId: channel.channelId } );
 			let updatedChannelInfo = Object.assign( channel, updatedChannels[ channelIndex ] );
 			updatedChannels.splice( channelIndex, 1, updatedChannelInfo );
-		} );
-
-		return updatedChannels;
-	},
-	[ types.SET_CHANNEL_LINEAR_EVENTS ]( state, action ) {
-		let updatedChannels = [ ...state ];
-		_.forEach( updatedChannels, ( channel ) => {
-			let allEvents = action.payload.events;
-			let eventsToBeUpdated = _.find( allEvents, ( channelEvents, channelId ) => {
-				if ( channel.channelId == parseInt( channelId ) ) {
-					return true;
-				}
-			} );
-
-			if ( eventsToBeUpdated ) {
-				channel.linearEvents = allEvents[ channel.channelId.toString() ];
-			}
 		} );
 
 		return updatedChannels;
@@ -63,12 +46,21 @@ export const favouriteChannelIds = createReducer( {}, {
 } );
 
 export const linearEvents = createReducer( {}, {
-	[ types.SET_CHANNEL_LINEAR_EVENTS ]( state, action ) {
+	[ types.FETCH_CHANNEL_DATA_RESPONDED ]( state, action ) {
 		let newState = Object.assign( {}, state );
-		_.forOwn( action.payload.events, ( channelEvents, channelId ) => {
+		_.forOwn( action.payload.channelLinearEvents, ( channelEvents, channelId ) => {
 			newState[ channelId ] = channelEvents;
 		} );
 
 		return newState;
+	}
+} );
+
+export const isChannelsDetailedDataPresent = createReducer( {}, {
+	[ types.FETCH_CHANNEL_DATA_IN_PROGRESS ]( state, action ) {
+		return false;
+	},
+	[ types.FETCH_CHANNEL_DATA_RESPONDED ]( state, action ) {
+		return true;
 	}
 } );

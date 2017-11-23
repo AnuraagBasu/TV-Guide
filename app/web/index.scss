@@ -29,6 +29,10 @@
 
 	.content {
 		padding-top: 60px;
+		// position: absolute;
+		width: 100%;
+		height: calc(100% - 60px);
+		overflow: auto;
 	}
 
 	.contained {
